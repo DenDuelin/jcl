@@ -1,0 +1,25 @@
+//T971623E JOB 'EJECUTA-COBOL','T971623-EXECCP01',CLASS=A,MSGCLASS=X,   00010001
+//             NOTIFY=&SYSUID,COND=(4,LT),TIME=(0,3)                    00030000
+//JOBLIB    DD DSN=T9716.T971623.LOAD,DISP=SHR                          00040000
+//*=================================================================    00050000
+//*   BORRA LOS FICHEROS DE SALIDA                                      00060000
+//*=================================================================    00070000
+//STEP05   EXEC PGM=IDCAMS                                              00080000
+//SYSPRINT  DD SYSOUT=*                                                 00090000
+//SYSIN     DD *                                                        00100000
+    DELETE T9716.T971623.ZSALP01.INFORME.PAG                            00110003
+    IF LASTCC=8 THEN SET MAXCC=0                                        00120000
+/*                                                                      00130000
+//*=================================================================    00131000
+//*   EJECUTA EL PGM                                                    00132000
+//*=================================================================    00133000
+//STEP10   EXEC  PGM=PB23P01                                            00135001
+//SYSPRINT  DD   SYSOUT=*,OUTLIM=200                                    00137000
+//ENTJCL   DD DSN=T9716.T971623.ZENTP01.EMPLEADO.PAG,DISP=SHR           00213103
+//SALJCL   DD DSN=T9716.T971623.ZSALP01.INFORME.PAG,                    00213203
+//            DISP=(NEW,CATLG),                                         00213303
+//            LRECL=133,RECFM=FB,BLKSIZE=0,DSORG=PS,                    00213403
+//            SPACE=(TRK,(3,3),RLSE),OUTLIM=140                         00213500
+//                                                                      00214000
+//SYSIN     DD DUMMY                                                    00220000
+// 
